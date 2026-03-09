@@ -101,7 +101,7 @@ const DashboardLayout = ({ children }) => {
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                 {/* Header */}
-                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30">
+                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30 flex-shrink-0">
                     <button
                         className="md:hidden p-2 text-slate-500"
                         onClick={() => setIsMobileMenuOpen(true)}
@@ -137,7 +137,7 @@ const DashboardLayout = ({ children }) => {
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-y-auto px-4 md:px-6 lg:px-8 pb-4 md:pb-6 lg:pb-8">
+                <main className="flex-1 overflow-y-auto m-0 p-0">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={location.pathname}
@@ -145,6 +145,7 @@ const DashboardLayout = ({ children }) => {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.99 }}
                             transition={{ duration: 0.15 }}
+                            className="px-4 md:px-6 lg:px-8 pt-6 pb-6"
                         >
                             {children}
                         </motion.div>
