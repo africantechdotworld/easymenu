@@ -137,7 +137,7 @@ const DashboardLayout = ({ children }) => {
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-y-auto pt-0 p-4 md:p-6 lg:p-8">
+                <main className="flex-1 overflow-y-auto px-4 md:px-6 lg:px-8 pb-4 md:pb-6 lg:pb-8">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={location.pathname}

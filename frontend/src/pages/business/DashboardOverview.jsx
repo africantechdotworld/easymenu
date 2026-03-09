@@ -64,7 +64,7 @@ const DashboardOverview = () => {
     }, []);
 
     return (
-        <div className="space-y-4 pt-1">
+        <div className="space-y-6 pt-0">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-1">
                 <div>
                     <h1 className="text-xl font-bold text-slate-900">Dashboard</h1>
