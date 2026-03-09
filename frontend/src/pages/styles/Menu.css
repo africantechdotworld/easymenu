@@ -1,0 +1,153 @@
+.menu-header {
+    height: unset;
+    border: none;
+    margin: 0;
+    background-color: #0b3d3d;
+    color: #fff;
+}
+
+.menu-img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.menu-header nav{
+    display: flex;
+    gap: 20px;
+}
+
+.menu-header nav a {
+    border: none;
+    background-color: #ef8102;
+    padding: 8px 16px;
+    min-width: 100px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.6s ease-in;
+}
+
+.menu-header nav a:hover {
+    background-color: var(--fourth-color);
+    color: #fff;
+    border: none;
+}
+
+.menu-main {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.menu-main > h1 {
+    font-size: 28px;
+    line-height: 50px;
+    font-weight: 500;
+    color: var(--sixth-color);
+    letter-spacing: 12px;
+}
+
+.menu-main > h2 {
+    text-align: center;
+    margin-top: 40px;
+    letter-spacing: 6px;
+    display: flex; /* Enables flexbox for alignment */
+    align-items: center; /* Centers text with lines vertically */
+    justify-content: center;
+}
+
+.menu-main > h2::before,
+.menu-main > h2::after {
+  content: "";
+  height: 1px; 
+  background: #000; 
+  margin: 0 10px; 
+  width: 70px;
+}
+
+.menu-container {
+    margin: 2rem auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.menu-item{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: var(--sixth-color);
+    padding-bottom: 30px;
+    overflow: hidden;
+}
+
+.menu-item img {
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+}
+
+.menu-item .content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #fff;
+}
+
+.menu-item .content > div {
+    display: flex;
+    justify-content: space-between !important;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.menu-item .content > div p {
+    margin-left: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.menu-item .content > div h2 {
+    margin: 0;
+}
+
+.menu-item .content button {
+    padding: 8px 16px;
+    background-color: #ef8102;
+    border: none;
+    color: #fff;
+    border-radius: 30px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    transition: all 0.6s ease-in;
+}
+
+.menu-item .content button:hover {
+    background-color: var(--fourth-color);
+    color: var(--sixth-color);
+}
+
+@media (max-width: 640px) {
+    .menu-header nav {
+        display: none;
+    }
+    .menu-img {
+        display: block;
+    }
+}

@@ -1,0 +1,80 @@
+#webnav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+}
+
+#webnav ul li a {
+    font-size: 16px;
+    color: #191919;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    border-radius: 30px;
+    transition: background-color 0.6s ease-in-out;
+}
+
+#webnav #restaurant {
+    background-color: #E58F65;
+    color: white;
+    border-radius: 30px;
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+}
+
+#restaurant:hover {
+    border: 1px solid #E58F65;
+    background-color: #fff !important;
+    color: #E58F65 !important;
+}
+
+#webnav ul li a:hover {
+    background-color: #E58F65;
+    color: white;
+    font-weight: 800;
+}
+
+#mobilenav {
+    position: fixed;
+    top: 0;
+    right: -70vw;
+    width: 70vw;
+    height: 100vh;
+    background-color: var(--sixth-color);
+    z-index: 20;
+    transition: right 2s ease !important;
+    overflow-y: auto;
+}
+
+.shownav {
+    right: 0 !important;
+}
+
+
+
+#mobilenav ul {
+    padding: 50px 1rem;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 40px;
+}
+
+#mobilenav ul li a {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--third-color);
+    cursor: pointer;
+}
+
+#closemenu {
+    color: var(--sixth-color);
+    font-size: 16px;
+    padding: 6px;
+    line-height: 6px;
+    border: 1px solid var(--third-color);
+    cursor: pointer;
+    background-color: var(--third-color);
+    border-radius: 32px;
+}

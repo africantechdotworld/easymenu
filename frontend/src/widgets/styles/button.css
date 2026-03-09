@@ -1,0 +1,21 @@
+.btn-3d {
+    cursor: pointer;
+    color: #191919;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 10px;
+    background-color: var(--third-color);
+    padding: 1rem 2rem;
+    border: none;
+    box-shadow: 0 6px var(--sixth-color);
+    transition: all 0.2s ease;
+}
+
+.btn-3d:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px var(--sixth-color);
+}
+.btn-3d:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px var(--sixth-color);
+}
