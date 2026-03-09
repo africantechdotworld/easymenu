@@ -138,13 +138,15 @@ const MenuPreviewDialog = ({
                                     fill={isFavorited ? "currentColor" : "none"}
                                 />
                             </Button>
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => onReviewClick(menu)}
-                            >
-                                <MessageSquare className="w-5 h-5" />
-                            </Button>
+                            {import.meta.env.VITE_EDUCATIONAL_VERSION !== 'true' && (
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={() => onReviewClick(menu)}
+                                >
+                                    <MessageSquare className="w-5 h-5" />
+                                </Button>
+                            )}
                         </div>
                     </div>
 

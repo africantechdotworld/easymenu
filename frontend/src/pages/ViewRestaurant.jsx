@@ -203,7 +203,7 @@ const ViewRestaurant = () => {
                                     <span className="text-sm">{restaurant?.address}</span>
                                 </div>
 
-                                {ratings && (
+                                {ratings && import.meta.env.VITE_EDUCATIONAL_VERSION !== 'true' && (
                                     <div
                                         className="cursor-pointer rating"
                                         onClick={() => navigate(`/restaurant/${id}/reviews`)}

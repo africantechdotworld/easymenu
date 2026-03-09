@@ -74,7 +74,7 @@ const DashboardLayout = ({ children }) => {
                     <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                         EasyMenu
                     </Link>
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Business Partner</p>
+                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-bold">Dashboard</p>
                 </div>
 
                 <nav className="flex-1 space-y-2">
@@ -116,15 +116,17 @@ const DashboardLayout = ({ children }) => {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <Button variant="ghost" size="icon" className="relative text-slate-500 hover:text-primary">
-                            <Bell className="w-5 h-5" />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-                        </Button>
+                        {import.meta.env.VITE_EDUCATIONAL_VERSION === 'true' ? null : (
+                            <Button variant="ghost" size="icon" className="relative text-slate-500 hover:text-primary">
+                                <Bell className="w-5 h-5" />
+                                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                            </Button>
+                        )}
                         <div className="h-8 w-px bg-slate-200" />
                         <div className="flex items-center gap-3 pl-2">
                             <div className="text-right hidden sm:block">
                                 <p className="text-sm font-medium text-slate-900">{profile?.businessName || 'Loading...'}</p>
-                                <p className="text-xs text-slate-500">Business Partner</p>
+                                <p className="text-xs text-slate-500">Dashboard</p>
                             </div>
                             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20 overflow-hidden">
                                 {profile?.logoUrl ? (

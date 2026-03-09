@@ -54,7 +54,7 @@ const DashboardOverview = () => {
                 // Mocking data for the demonstration
                 setStats({
                     categories: 5,
-                    totalItems: 64
+                    totalItems: 8
                 });
             } finally {
                 setLoading(false);

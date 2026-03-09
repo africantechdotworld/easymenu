@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -12,6 +12,14 @@ import { useToast } from "@/hooks/use-toast";
 const BusinessSignup = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
+
+    useEffect(() => {
+        const token = localStorage.getItem('biz-token');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         businessName: '',
