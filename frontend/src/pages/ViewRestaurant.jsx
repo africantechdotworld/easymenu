@@ -24,7 +24,7 @@ import { getRestaurantProfile, getMenuCategories, getRestaurantRatings, getResta
 
 const ViewRestaurant = () => {
     const { id } = useParams();
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 960);
     const [restaurant, setRestaurant] = useState(null);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ const ViewRestaurant = () => {
     };
 
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        const handleResize = () => setIsMobile(window.innerWidth <= 960);
         window.addEventListener('resize', handleResize);
 
         const fetchData = async () => {
@@ -192,8 +192,7 @@ const ViewRestaurant = () => {
                     <div className="c-details">
                         <h1 className="m-0">{restaurant?.name}</h1>
                         <div className="restaurant-info">
-                            {/* Status Badge */}
-                            <div className="flex justify-center gap-2 align-middle">
+                            <div className="flex flex-wrap items-center justify-center gap-3">
                                 <span className={`status-badge ${checkIfOpen() ? 'open' : 'closed'}`}>
                                     <FontAwesomeIcon icon={faClock} />
                                     {checkIfOpen() ? 'Open Now' : 'Closed'}
@@ -201,33 +200,21 @@ const ViewRestaurant = () => {
 
                                 <div className="location">
                                     <FontAwesomeIcon icon={faLocationDot} />
-                                    <span>{restaurant?.address}</span>
+                                    <span className="text-sm">{restaurant?.address}</span>
                                 </div>
+
                                 {ratings && (
                                     <div
                                         className="cursor-pointer rating"
-                                        id="r-desk"
                                         onClick={() => navigate(`/restaurant/${id}/reviews`)}
                                     >
                                         <FontAwesomeIcon icon={faStar} className="star-icon" />
                                         <span>{ratings.averageRating.toFixed(1)}</span>
-                                        <span className="review-count">({ratings.totalReviews})</span>
-                                        <span className="underline">Reviews</span>
+                                        <span className="review-count text-xs">({ratings.totalReviews})</span>
+                                        <span className="text-xs underline ml-1">Reviews</span>
                                     </div>
                                 )}
                             </div>
-                            {ratings && (
-                                <div
-                                    className="cursor-pointer rating"
-                                    id="r-mb"
-                                    onClick={() => navigate(`/restaurant/${id}/reviews`)}
-                                >
-                                    <FontAwesomeIcon icon={faStar} className="star-icon" />
-                                    <span>{ratings.averageRating.toFixed(1)}</span>
-                                    <span className="review-count">({ratings.totalReviews})</span>
-                                    <span className="underline">Reviews</span>
-                                </div>
-                            )}
                             {/* Location & Rating */}
                             {/*
                             <div className="info-row">
@@ -350,7 +337,7 @@ const ViewRestaurant = () => {
                                         )}
                                         <h3>{category.name}</h3>
                                     </div>
-                                    <FontAwesomeIcon icon={faChevronRight} />
+                                    <FontAwesomeIcon icon={faChevronRight} className="icon-chevron" />
                                 </div>
                             ))
                         ) : (
