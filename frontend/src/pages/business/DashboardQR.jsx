@@ -103,11 +103,20 @@ const DashboardQR = () => {
                             </div>
                         </motion.div>
 
-                        <div className="mt-8 text-center space-y-1">
-                            <h3 className="font-bold text-slate-900">{profile?.businessName}</h3>
-                            <p className="text-xs text-slate-400 truncate max-w-[220px] mx-auto opacity-70">
-                                Scan to view our digital menu
-                            </p>
+                        <div className="mt-8 text-center space-y-4">
+                            <div>
+                                <h3 className="font-bold text-slate-900">{profile?.businessName}</h3>
+                                <p className="text-xs text-slate-400 truncate max-w-[220px] mx-auto opacity-70">
+                                    Scan to view our digital menu
+                                </p>
+                            </div>
+                            <Button
+                                onClick={handleDownload}
+                                className="w-full rounded-xl shadow-lg shadow-primary/20"
+                            >
+                                <Download className="w-4 h-4 mr-2" />
+                                Download QR Code
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
