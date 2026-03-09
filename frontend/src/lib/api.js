@@ -341,8 +341,77 @@ export const deleteMenuItem = async (itemId) => {
     }
 };
 
+
+// Admin API Functions
+export const loginAdmin = async (email, password) => {
+    try {
+        const res = await fetch(`${BASE_URL}/admin/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Admin login failed');
+        if (data.token) localStorage.setItem('admin-token', data.token);
+        return { success: true, data };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const getAllRestaurantsAdmin = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/admin/restaurants`, {
+            headers: adminAuthHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to fetch restaurants');
+        return { success: true, data };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const getSystemStatsAdmin = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/admin/stats`, {
+            headers: adminAuthHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to fetch stats');
+        return { success: true, data };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const deleteRestaurantAdmin = async (id) => {
+    try {
+        const res = await fetch(`${BASE_URL}/admin/restaurants/${id}`, {
+            method: 'DELETE',
+            headers: adminAuthHeaders()
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to delete restaurant');
+        return { success: true, data };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: error.message };
+    }
+};
+
 export const authHeaders = () => {
     const token = localStorage.getItem('biz-token');
+    return {
+        'Authorization': `Bearer ${token}`
+    };
+};
+
+export const adminAuthHeaders = () => {
+    const token = localStorage.getItem('admin-token');
     return {
         'Authorization': `Bearer ${token}`
     };

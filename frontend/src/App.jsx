@@ -16,6 +16,8 @@ import RestaurantReviews from './pages/RestaurantReviews';
 import BusinessLogin from './pages/business/Login';
 import BusinessSignup from './pages/business/Signup';
 import Dashboard from './pages/business/Dashboard';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
         <Route path="/business/login" element={<BusinessLogin />} />
         <Route path="/business/signup" element={<BusinessSignup />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* Customer Routes */}
         <Route path="/restaurant/:id" element={<ViewRestaurant />} />
