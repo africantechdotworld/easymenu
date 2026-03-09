@@ -126,9 +126,9 @@ const DashboardLayout = ({ children }) => {
                                 <p className="text-sm font-medium text-slate-900">{profile?.businessName || 'Loading...'}</p>
                                 <p className="text-xs text-slate-500">Business Partner</p>
                             </div>
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                                {profile?.logo ? (
-                                    <img src={profile.logo} alt="Store" className="w-full h-full rounded-full object-cover" />
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20 overflow-hidden">
+                                {profile?.logoUrl ? (
+                                    <img src={profile.logoUrl.startsWith('http') ? profile.logoUrl : `http://localhost:5000${profile.logoUrl}`} alt="Store" className="w-full h-full rounded-full object-cover" />
                                 ) : (
                                     <User className="w-5 h-5" />
                                 )}

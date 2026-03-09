@@ -184,13 +184,27 @@ export const getAuthProfile = async () => {
 
 export const updateAuthProfile = async (updateData) => {
     try {
+        const hasFiles = Object.values(updateData).some(val => val instanceof File);
+        let body;
+        let headers = { ...authHeaders() };
+
+        if (hasFiles) {
+            body = new FormData();
+            for (const key in updateData) {
+                if (updateData[key] !== undefined) {
+                    body.append(key, updateData[key]);
+                }
+            }
+            // Let the browser set the Content-Type with boundary for FormData
+        } else {
+            headers['Content-Type'] = 'application/json';
+            body = JSON.stringify(updateData);
+        }
+
         const res = await fetch(`${BASE_URL}/auth/profile`, {
             method: 'PUT',
-            headers: {
-                ...authHeaders(),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updateData)
+            headers,
+            body
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to update profile');
@@ -204,13 +218,15 @@ export const updateAuthProfile = async (updateData) => {
 // Menu Category Management
 export const createCategory = async (categoryData) => {
     try {
+        const formData = new FormData();
+        for (const key in categoryData) {
+            formData.append(key, categoryData[key]);
+        }
+
         const res = await fetch(`${BASE_URL}/menu/categories`, {
             method: 'POST',
-            headers: {
-                ...authHeaders(),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(categoryData)
+            headers: authHeaders(),
+            body: formData
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to create category');
@@ -223,13 +239,17 @@ export const createCategory = async (categoryData) => {
 
 export const updateCategory = async (categoryId, categoryData) => {
     try {
+        const formData = new FormData();
+        for (const key in categoryData) {
+            if (categoryData[key] !== undefined) {
+                formData.append(key, categoryData[key]);
+            }
+        }
+
         const res = await fetch(`${BASE_URL}/menu/categories/${categoryId}`, {
             method: 'PUT',
-            headers: {
-                ...authHeaders(),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(categoryData)
+            headers: authHeaders(),
+            body: formData
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to update category');

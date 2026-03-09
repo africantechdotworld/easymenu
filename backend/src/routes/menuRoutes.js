@@ -16,8 +16,8 @@ const router = express.Router();
 
 // Categories
 router.get('/:restaurantId/categories', getCategories);
-router.post('/categories', protect, createCategory);
-router.put('/categories/:id', protect, updateCategory);
+router.post('/categories', protect, upload.single('image'), createCategory);
+router.put('/categories/:id', protect, upload.single('image'), updateCategory);
 router.delete('/categories/:id', protect, deleteCategory);
 
 // Items

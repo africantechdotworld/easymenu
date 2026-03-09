@@ -40,7 +40,7 @@ const MenuView = () => {
 
                 if (menusResult.success && categoriesResult.success) {
                     setMenus(menusResult.data);
-                    const currentCategory = categoriesResult.data.find(cat => cat.id === categoryId);
+                    const currentCategory = categoriesResult.data.find(cat => (cat._id || cat.id) === categoryId);
                     setCategory(currentCategory);
                 } else {
                     setError("Failed to load menu data");
@@ -70,8 +70,9 @@ const MenuView = () => {
             return;
         }
 
-        const newFavorites = favorites.some(fav => fav.id === menu.id)
-            ? favorites.filter(fav => fav.id !== menu.id)
+        const menuId = menu._id || menu.id;
+        const newFavorites = favorites.some(fav => (fav._id || fav.id) === menuId)
+            ? favorites.filter(fav => (fav._id || fav.id) !== menuId)
             : [...favorites, { ...menu, restaurantId: id }];
 
         setFavorites(newFavorites);
@@ -87,7 +88,7 @@ const MenuView = () => {
             return;
         }
 
-        navigate(`/restaurant/${id}/menu/${menu.id}/reviews/`);
+        navigate(`/restaurant/${id}/menu/${menu._id || menu.id}/reviews/`);
     };
 
     const handleConsentAccept = () => {
@@ -98,6 +99,12 @@ const MenuView = () => {
             pendingAction();
             setPendingAction(null);
         }
+    };
+
+    const getImageUrl = (url) => {
+        if (!url) return null;
+        if (url.startsWith('http')) return url;
+        return `http://localhost:5000${url}`;
     };
 
     if (loading) {
@@ -159,7 +166,7 @@ const MenuView = () => {
                     ) : (
                         filteredMenus.map((menu) => (
                             <motion.div
-                                key={menu.id}
+                                key={menu._id || menu.id}
                                 layout
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
@@ -170,9 +177,9 @@ const MenuView = () => {
                                 >
                                     <div className="flex gap-4">
                                         <div className="relative w-32 h-32 bg-muted flex-shrink-0">
-                                            {menu.image ? (
+                                            {(menu.imageUrl || menu.image) ? (
                                                 <img
-                                                    src={menu.image}
+                                                    src={getImageUrl(menu.imageUrl || menu.image)}
                                                     alt={menu.name}
                                                     className="w-full h-full object-cover"
                                                 />
@@ -222,7 +229,7 @@ const MenuView = () => {
                 restaurantId={id}
                 onFavoriteToggle={handleFavoriteToggle}
                 onReviewClick={handleReviewClick}
-                isFavorited={favorites.some(fav => fav.id === selectedMenu?.id)}
+                isFavorited={favorites.some(fav => (fav._id || fav.id) === (selectedMenu?._id || selectedMenu?.id))}
                 orderingEnabled={category?.allowOrdering}
             />
 

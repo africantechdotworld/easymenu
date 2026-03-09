@@ -22,9 +22,15 @@ export const createCategory = async (req, res) => {
     try {
         const { name, description, orderInfo } = req.body;
 
+        let imageUrl = '';
+        if (req.file) {
+            imageUrl = `/uploads/${req.file.filename}`;
+        }
+
         const category = await MenuCategory.create({
             name,
             description,
+            imageUrl,
             orderInfo,
             restaurantId: req.restaurantId,
         });
@@ -50,7 +56,12 @@ export const updateCategory = async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
-        Object.assign(category, req.body);
+        const updates = { ...req.body };
+        if (req.file) {
+            updates.imageUrl = `/uploads/${req.file.filename}`;
+        }
+
+        Object.assign(category, updates);
         const updatedCategory = await category.save();
 
         res.json(updatedCategory);

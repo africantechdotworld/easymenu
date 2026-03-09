@@ -180,12 +180,12 @@ const ViewRestaurant = () => {
                     </div>
                     <img
                         className="c-photo"
-                        src={restaurant?.coverPhoto || 'default-cover-path'}
+                        src={restaurant?.bannerUrl ? (restaurant.bannerUrl.startsWith('http') ? restaurant.bannerUrl : `http://localhost:5000${restaurant.bannerUrl}`) : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80'}
                         alt={restaurant?.name}
                     />
                     <div className="p-photo">
                         <img
-                            src={restaurant?.profileLogo || 'default-logo-path'}
+                            src={restaurant?.logoUrl ? (restaurant.logoUrl.startsWith('http') ? restaurant.logoUrl : `http://localhost:5000${restaurant.logoUrl}`) : 'https://api.dicebear.com/7.x/initials/svg?seed=' + restaurant?.name}
                             alt="Restaurant logo"
                         />
                     </div>
@@ -259,68 +259,64 @@ const ViewRestaurant = () => {
 
             <div className="space-y-8 m-container">
                 {/* Specials Section */}
-                <div className="space-y-4 specials">
-                    <h2>Specials</h2>
-                    <div className="space-x-4 specials-body">
-                        {specials.length > 0 ? (
-                            specials.map((special) => (
+                {specials.length > 0 && (
+                    <div className="space-y-4 specials">
+                        <h2>Specials</h2>
+                        <div className="space-x-4 specials-body">
+                            {specials.map((special) => (
                                 <SpecialCard key={special.id} special={special} />
-                            ))
-                        ) : (
-                            <div className="w-full py-4 text-center text-gray-500">
-                                No special offers available
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
 
-                    <Dialog open={!!selectedSpecial} onOpenChange={() => setSelectedSpecial(null)}>
-                        <DialogContent className="sm:max-w-[425px]">
-                            {selectedSpecial && (
-                                <>
-                                    <DialogHeader>
-                                        <DialogTitle>Special Offer</DialogTitle>
-                                    </DialogHeader>
-                                    <div className="space-y-4">
-                                        <div className="relative w-full h-48 overflow-hidden rounded-lg">
-                                            <img
-                                                src={selectedSpecial.image}
-                                                alt={selectedSpecial.title}
-                                                className="object-cover w-full h-full"
-                                            />
-                                            <Badge
-                                                className="absolute text-white bg-red-500 border-none top-3 right-3 hover:bg-red-600"
-                                            >
-                                                Special
-                                            </Badge>
-                                        </div>
-
-                                        <div>
-                                            <h2 className="mb-2 text-xl font-semibold">{selectedSpecial.title}</h2>
-                                            <p className="mb-4 text-sm text-muted-foreground">
-                                                {selectedSpecial.description}
-                                            </p>
-
-                                            <div className="flex items-center gap-2 mb-2 text-sm text-muted-foreground">
-                                                <Clock className="w-4 h-4" />
-                                                <span>
-                                                    Valid from {new Date(selectedSpecial.startDate).toLocaleDateString()} to {new Date(selectedSpecial.endDate).toLocaleDateString()}
-                                                </span>
+                        <Dialog open={!!selectedSpecial} onOpenChange={() => setSelectedSpecial(null)}>
+                            <DialogContent className="sm:max-w-[425px]">
+                                {selectedSpecial && (
+                                    <>
+                                        <DialogHeader>
+                                            <DialogTitle>Special Offer</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="space-y-4">
+                                            <div className="relative w-full h-48 overflow-hidden rounded-lg">
+                                                <img
+                                                    src={selectedSpecial.image}
+                                                    alt={selectedSpecial.title}
+                                                    className="object-cover w-full h-full"
+                                                />
+                                                <Badge
+                                                    className="absolute text-white bg-red-500 border-none top-3 right-3 hover:bg-red-600"
+                                                >
+                                                    Special
+                                                </Badge>
                                             </div>
 
-                                            {selectedSpecial.price && (
-                                                <div className="mt-4">
-                                                    <span className="text-xl font-bold text-primary">
-                                                        ${selectedSpecial.price}
+                                            <div>
+                                                <h2 className="mb-2 text-xl font-semibold">{selectedSpecial.title}</h2>
+                                                <p className="mb-4 text-sm text-muted-foreground">
+                                                    {selectedSpecial.description}
+                                                </p>
+
+                                                <div className="flex items-center gap-2 mb-2 text-sm text-muted-foreground">
+                                                    <Clock className="w-4 h-4" />
+                                                    <span>
+                                                        Valid from {new Date(selectedSpecial.startDate).toLocaleDateString()} to {new Date(selectedSpecial.endDate).toLocaleDateString()}
                                                     </span>
                                                 </div>
-                                            )}
+
+                                                {selectedSpecial.price && (
+                                                    <div className="mt-4">
+                                                        <span className="text-xl font-bold text-primary">
+                                                            ${selectedSpecial.price}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            )}
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                                    </>
+                                )}
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                )}
 
                 {/* Categories Section */}
                 <div className="space-y-4 categories">
@@ -338,22 +334,36 @@ const ViewRestaurant = () => {
                         {isMobile ? (
                             categories.map((category) => (
                                 <div
-                                    key={category.id}
+                                    key={category._id}
                                     className="category-tile"
-                                    onClick={() => navigate(`/restaurant/${id}/menu/${category.id}`)}
+                                    onClick={() => navigate(`/restaurant/${id}/menu/${category._id}`)}
                                 >
-                                    <h3>{category.name}</h3>
+                                    <div className="flex items-center gap-3">
+                                        {category.imageUrl && (
+                                            <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                                <img
+                                                    src={category.imageUrl.startsWith('http') ? category.imageUrl : `http://localhost:5000${category.imageUrl}`}
+                                                    alt={category.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                        <h3>{category.name}</h3>
+                                    </div>
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </div>
                             ))
                         ) : (
                             categories.map((category) => (
                                 <div
-                                    key={category.id}
+                                    key={category._id}
                                     className="category-card"
-                                    onClick={() => navigate(`/restaurant/${id}/menu/${category.id}`)}
+                                    onClick={() => navigate(`/restaurant/${id}/menu/${category._id}`)}
                                 >
-                                    <img src={category.image} alt={category.name} />
+                                    <img
+                                        src={category.imageUrl ? (category.imageUrl.startsWith('http') ? category.imageUrl : `http://localhost:5000${category.imageUrl}`) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80'}
+                                        alt={category.name}
+                                    />
                                     <h2 className="category-title">{category.name}</h2>
                                 </div>
                             ))

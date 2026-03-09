@@ -34,7 +34,8 @@ const MenuPreviewDialog = ({
                 const storedFavorites = localStorage.getItem('menuFavorites');
                 if (storedFavorites) {
                     const favorites = JSON.parse(storedFavorites);
-                    setIsFavorited(favorites.some(fav => fav.id === menu.id));
+                    const menuId = menu._id || menu.id;
+                    setIsFavorited(favorites.some(fav => (fav._id || fav.id) === menuId));
                 }
             }
         };
@@ -56,10 +57,11 @@ const MenuPreviewDialog = ({
     const handleFavoriteToggle = () => {
         // Prepare menu data for favorite
         const menuData = {
-            id: menu.id,
+            id: menu._id || menu.id,
+            _id: menu._id || menu.id,
             name: menu.name,
             price: menu.price,
-            image: menu.image,
+            imageUrl: menu.imageUrl || menu.image,
             restaurantId,
             categoryId: menu.categoryId,
             description: menu.description
@@ -73,10 +75,11 @@ const MenuPreviewDialog = ({
         const storedFavorites = localStorage.getItem('menuFavorites');
         let favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
 
+        const menuId = menu._id || menu.id;
         if (newFavoritedState) {
             favorites.push(menuData);
         } else {
-            favorites = favorites.filter(fav => fav.id !== menu.id);
+            favorites = favorites.filter(fav => (fav._id || fav.id) !== menuId);
         }
 
         localStorage.setItem('menuFavorites', JSON.stringify(favorites));
@@ -85,6 +88,12 @@ const MenuPreviewDialog = ({
     const handleConsentAccept = () => {
         setShowConsentDialog(false);
         handleFavoriteToggle();
+    };
+
+    const getImageUrl = (url) => {
+        if (!url) return null;
+        if (url.startsWith('http')) return url;
+        return `http://localhost:5000${url}`;
     };
 
     return (
@@ -99,10 +108,10 @@ const MenuPreviewDialog = ({
 
                     {/* Menu Image */}
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
-                        {menu?.image ? (
+                        {(menu?.imageUrl || menu?.image) ? (
                             <img
-                                src={menu.image}
-                                alt={menu.name}
+                                src={getImageUrl(menu.imageUrl || menu.image)}
+                                alt={menu?.name}
                                 className="w-full h-full object-cover"
                             />
                         ) : (

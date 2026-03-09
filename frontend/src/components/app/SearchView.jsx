@@ -38,7 +38,7 @@ const SearchView = ({
 
                     // Fetch all menus across categories
                     menusResult = await Promise.all(
-                        categoriesResult.data.map(category => getMenuItemsByCategory(category.id))
+                        categoriesResult.data.map(category => getMenuItemsByCategory(category._id || category.id))
                     );
                 }
 
@@ -85,6 +85,12 @@ const SearchView = ({
         { id: 'categories', label: 'Categories' }
     ];
 
+    const getImageUrl = (url) => {
+        if (!url) return null;
+        if (url.startsWith('http')) return url;
+        return `http://localhost:5000${url}`;
+    };
+
     const renderResults = () => {
         if (loading) {
             return (
@@ -110,9 +116,9 @@ const SearchView = ({
                             <h3 className="px-4 mb-2 text-sm font-semibold text-muted-foreground">Categories</h3>
                             {filteredCategories.map(category => (
                                 <div
-                                    key={category.id}
+                                    key={category._id || category.id}
                                     className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-muted/50"
-                                    onClick={() => onCategoryClick(category.id)}
+                                    onClick={() => onCategoryClick(category._id || category.id)}
                                 >
                                     <div className="flex items-center gap-3">
                                         <Grid3X3 className="w-5 h-5 text-muted-foreground" />
@@ -129,13 +135,13 @@ const SearchView = ({
                             <h3 className="px-4 mb-2 text-sm font-semibold text-muted-foreground">Menu Items</h3>
                             {filteredMenus.map(menu => (
                                 <div
-                                    key={menu.id}
+                                    key={menu._id || menu.id}
                                     className="flex gap-4 px-4 py-3 cursor-pointer hover:bg-muted/50"
-                                    onClick={() => onMenuClick(menu.categoryId, menu.id)}
+                                    onClick={() => onMenuClick(menu.categoryId, menu._id || menu.id)}
                                 >
                                     <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
                                         <img
-                                            src={menu.image || "/api/placeholder/64/64"}
+                                            src={getImageUrl(menu.imageUrl || menu.image) || "/api/placeholder/64/64"}
                                             alt={menu.name}
                                             className="object-cover w-full h-full"
                                         />
@@ -167,9 +173,9 @@ const SearchView = ({
             return filteredCategories.length > 0 ? (
                 filteredCategories.map(category => (
                     <div
-                        key={category.id}
+                        key={category._id || category.id}
                         className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-muted/50"
-                        onClick={() => onCategoryClick(category.id)}
+                        onClick={() => onCategoryClick(category._id || category.id)}
                     >
                         <div className="flex items-center gap-3">
                             <Grid3X3 className="w-5 h-5 text-muted-foreground" />
@@ -189,13 +195,13 @@ const SearchView = ({
             return filteredMenus.length > 0 ? (
                 filteredMenus.map(menu => (
                     <div
-                        key={menu.id}
+                        key={menu._id || menu.id}
                         className="flex gap-4 px-4 py-3 cursor-pointer hover:bg-muted/50"
-                        onClick={() => onMenuClick(menu.categoryId, menu.id)}
+                        onClick={() => onMenuClick(menu.categoryId, menu._id || menu.id)}
                     >
                         <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
                             <img
-                                src={menu.image || "/api/placeholder/64/64"}
+                                src={getImageUrl(menu.imageUrl || menu.image) || "/api/placeholder/64/64"}
                                 alt={menu.name}
                                 className="object-cover w-full h-full"
                             />
@@ -264,8 +270,8 @@ const SearchView = ({
                             key={filter.id}
                             onClick={() => setActiveFilter(filter.id)}
                             className={`px-4 py-1 rounded-full text-sm ${activeFilter === filter.id
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'bg-muted text-muted-foreground'
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-muted text-muted-foreground'
                                 }`}
                         >
                             {filter.label}
